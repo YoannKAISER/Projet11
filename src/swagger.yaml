@@ -1,0 +1,175 @@
+swagger: "2.0"
+info:
+  version: "2.0.0"
+  title: "ArgentBank API"
+
+host: "localhost:3001"
+basePath: "/api/v2"
+schemes:
+  - "https"
+
+paths:
+
+  /accounts:
+    get:
+      summary: "Récupère les comptes de l'utilisateur"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          description: "Token d'authentification"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Réponse réussie, liste des comptes de l'utilisateur"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Account"
+        400:
+          description: Invalid Fields
+        401:
+          description: Invalid Account
+        500:
+          description: Internal Server Error
+       
+
+  /accounts/{accountId}/transactions:
+    get:
+      summary: "Récupère les transactions d'un compte"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          description: "Token d'authentification"
+          required: true
+          type: "string"
+        - name: "accountId"
+          in: "path"
+          description: "ID du compte pour récupérer les transactions"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Réponse réussie, liste des transactions pour le compte"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Transactions"
+        400:
+          description: Invalid Fields
+        401:
+          description: Authorisation failed
+        404:
+          description: Not found
+        500:
+          description: Internal Server Error
+       
+
+  /transactions/{transactionId}:
+    get:
+      summary: "Récupère les détails d'une transaction"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          description: "Token d'authentification"
+          required: true
+          type: "string"
+        - name: "transactionId"
+          in: "path"
+          description: "ID de la transaction à afficher"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Réponse réussie, détails de la transaction"
+          schema:
+            $ref: "#/definitions/TransactionDetails"
+        400:
+          description: Invalid Fields
+        401:
+          description: Authorisation failed
+        404:
+          description: Not found
+        500:
+          description: Internal Server Error
+
+    put:
+      summary: "Met à jour la catégorie et la note d'une transaction"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          description: "Token d'authentification"
+          required: true
+          type: "string"
+        - name: "transactionId"
+          in: "path"
+          description: "ID de la transaction à mettre à jour"
+          required: true
+          type: "string"
+        - name: "transactionUpdate"
+          in: "body"
+          description: "Mise à jour de la catégorie et de la note"
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionUpdate"
+      responses:
+        200:
+          description: "Réponse réussie, la transaction a été mise à jour"
+        400:
+          description: Invalid Fields
+        401:
+          description: Authorisation failed
+        404:
+          description: Not found
+        500:
+          description: Internal Server Error
+         
+
+definitions:
+  Account:
+    type: "object"
+    properties:
+      accountId:
+        type: "string"
+      title:
+        type: "string"
+      amount:
+        type: "number"
+      description:
+        type: "string"
+      button:
+        type: "string"
+
+  Transaction:
+    type: "object"
+    properties:
+      transactionId:
+        type: "string"
+      date:
+        type: "string"
+      description:
+        type: "string"
+      amount:
+        type: "number"
+      balance:
+        type: "number"
+
+  TransactionDetails:
+    type: "object"
+    properties:
+      transactionId:
+        type: "string"
+      transactionType:
+        type: "string"
+      category:
+        type: "string"
+      note:
+        type: "string"
+
+  TransactionUpdate:
+    type: "object"
+    properties:
+      category:
+        type: "string"
+      note:
+        type: "string"
