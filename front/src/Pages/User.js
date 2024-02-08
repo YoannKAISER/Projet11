@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { getProfile } from '../API'; 
 import { saveFirstName, saveLastName, saveUserName } from '../Redux';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom'; 
 
 
 
@@ -14,10 +15,14 @@ function User() {
   const token = useSelector((state) => state.user.token);
   const [hideForm, setHideForm] = useState(false);
   const userName = useSelector((state) => state.user.userName);
+  const navigate = useNavigate();
 
   useEffect(() => { 
-      fetchUserProfile(userName);
-  }, [token, userName]);
+    if (!token) {
+        navigate('/sign-in'); 
+        fetchUserProfile(userName);
+    }
+}, [token, userName, navigate]);
 
   const fetchUserProfile = async (requestedUsername) => {
     try {

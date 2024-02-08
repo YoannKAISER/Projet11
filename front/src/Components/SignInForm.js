@@ -18,7 +18,6 @@ function SignInForm({
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState(''); 
 
-    console.log(email);
 
     async function handleClick(event) {
         if (email === '') {
