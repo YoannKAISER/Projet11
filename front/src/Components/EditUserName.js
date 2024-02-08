@@ -46,9 +46,9 @@ function EditUserName({
   
   const handleClickSave = () => {
     putChangeUserName(token, tempUserName); 
-    /*dispatch(saveUserName(tempUserName)); 
-    setUserName(tempUserName); 
-    navigate(`/user/${tempUserName}`);*/
+    dispatch(saveUserName(tempUserName)); 
+    setUserName('userName', tempUserName); 
+    navigate(`/profile`);
   };
 
   

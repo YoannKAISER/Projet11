@@ -88,7 +88,7 @@ html {
   }
   
   .hero {
-    background-image: url('./Icones/bank-tree.jpeg');
+    background-image: url('./Icones/bank-tree.webp');
     background-position: 0 -50px;
     background-size: cover;
     background-repeat: no-repeat;
@@ -337,6 +337,7 @@ html {
   span {
     display: block;
     text-align-last: left;
+    color: red;
   }
   .error-container {
     margin-bottom: 15px;

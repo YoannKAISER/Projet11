@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getFirstName, getLastName, getToken, getUserName } from '../API'; 
-import { saveFirstName, saveLastName, saveToken, saveUserName } from '../Redux';
 import signInError from '../Components/signinError';
+import { getProfile, getToken } from '../API'; 
+import { saveToken } from "../Redux";
+import { saveUserName, saveFirstName, saveLastName } from "../Redux";
 
 
 function SignInForm({
@@ -17,22 +18,25 @@ function SignInForm({
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState(''); 
 
-
+    console.log(email);
 
     async function handleClick(event) {
+        if (email === '') {
+            navigate('/sign-in')
+        }
+
+
         event.preventDefault(); 
         try {
             const token = await getToken(email, password);
-            const userName = await getUserName(token);
-            const firstName = await getFirstName(token);
-            const lastName = await getLastName(token);
-
+            const profile = await getProfile(token);
             dispatch(saveToken(token));
-            dispatch(saveUserName(userName));
-            dispatch(saveFirstName(firstName));
-            dispatch(saveLastName(lastName));
-           
-            navigate(`/user/${userName}`);
+            dispatch(saveUserName(profile.userName));
+            sessionStorage.setItem('token', token);
+            sessionStorage.setItem('userName', profile.userName);
+            dispatch(saveFirstName(profile.firstName));
+            dispatch(saveLastName(profile.lastName));
+            navigate(`/profile`);
         } catch (error) {
 
             signInError();

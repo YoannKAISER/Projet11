@@ -19,7 +19,6 @@ async function postAccessToToken(email, password) {
 
 
 export async function postGetProfile(token) {
-  
   let response = await fetch(`${baseUrl}user/profile`, {
     method: 'POST',
     headers: {
@@ -76,4 +75,26 @@ export async function putChangeUserName(token, newUserName) {
     body: JSON.stringify(userName),
   });
   return response;
+}
+
+export async function getProfile(token, username) {
+  try {
+    let response = await fetch(`${baseUrl}user/profile`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    let responseBody = await response.json();
+    return responseBody;
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    throw error;
+  }
 }

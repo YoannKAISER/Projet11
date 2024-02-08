@@ -5,7 +5,6 @@ import Header from '../Layout/Header/Header';
 
 
 function SignIn({alt, title}) {
-  
   return (
     <>
       <Header />

@@ -2,31 +2,30 @@ import { configureStore, createSlice } from '@reduxjs/toolkit';
 
 
 const userInfosSlice = createSlice({
-  name: 'user', 
+  name: 'user',
   initialState: {
-    token: null, 
-    userName: localStorage.getItem('userName'),
-    firstName: localStorage.getItem('firstName'), 
-    lastName: localStorage.getItem('lastName'), 
+    token: sessionStorage.getItem("token"),
+    userName: null,
+    firstName: null,
+    lastName: null,
   },
   reducers: {
-    
     saveToken: (state, action) => {
       state.token = action.payload;
     },
-    
+
     saveUserName: (state, action) => {
       state.userName = action.payload;
     },
-    
+
     saveFirstName: (state, action) => {
       state.firstName = action.payload;
     },
-  
+
     saveLastName: (state, action) => {
       state.lastName = action.payload;
     },
-    
+
     resetUser: (state) => {
       return {
         token: null,
@@ -35,8 +34,17 @@ const userInfosSlice = createSlice({
         lastName: null,
       };
     },
+
+    saveUserInfo: (state, action) => {
+      const { userName, firstName, lastName } = action.payload;
+      state.userName = userName;
+      state.firstName = firstName;
+      state.lastName = lastName;
+    },
   },
 });
+
+export const { saveUserInfo, /* ... */ } = userInfosSlice.actions;
 
 
 export const {

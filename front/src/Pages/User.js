@@ -1,15 +1,43 @@
 import NavigationHeader from '../Layout/Header/NavigationHeader';
 import Account from '../Components/Account';
 import EditUserName from '../Components/EditUserName';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { getProfile } from '../API'; 
+import { saveFirstName, saveLastName, saveUserName } from '../Redux';
+import { useDispatch } from 'react-redux';
+
+
 
 function User() {
+  const dispatch = useDispatch(); 
+  const token = useSelector((state) => state.user.token);
   const [hideForm, setHideForm] = useState(false);
   const userName = useSelector((state) => state.user.userName);
-  const firstName = useSelector((state) => state.user.firstName);
-  const lastName = useSelector((state) => state.user.lastName);
 
+  useEffect(() => { 
+      fetchUserProfile(userName);
+  }, [token, userName]);
+
+  const fetchUserProfile = async (requestedUsername) => {
+    try {
+      const response = await getProfile(token, requestedUsername);
+  
+      if (response.status === 200 && response.body) {
+        const { userName, firstName, lastName } = response.body;
+  
+        dispatch(saveUserName(userName));
+        dispatch(saveFirstName(firstName));
+        dispatch(saveLastName(lastName));
+      }
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
+
+  
+  const userData = useSelector((state) => state.user);
+  
 
   return (
     <>
@@ -29,9 +57,9 @@ function User() {
             formTitle="Edit user name"
             saveButton="save"
             display={hideForm}
-            userNameProps={userName}
-            firstName={firstName}
-            lastName={lastName}
+            userNameProps={userData.userName}
+            firstName={userData.firstName}
+            lastName={userData.lastName}
           />
         </div>
         <h2 className="sr-only">Accounts</h2>

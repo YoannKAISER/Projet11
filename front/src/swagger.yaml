@@ -54,7 +54,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/Transactions"
+              $ref: "#/definitions/Transaction"
         400:
           description: Invalid Fields
         401:
@@ -83,7 +83,7 @@ paths:
         200:
           description: "Réponse réussie, détails de la transaction"
           schema:
-            $ref: "#/definitions/TransactionDetails"
+            $ref: "#/definitions/Transaction"
         400:
           description: Invalid Fields
         401:
@@ -137,8 +137,6 @@ definitions:
         type: "number"
       description:
         type: "string"
-      button:
-        type: "string"
 
   Transaction:
     type: "object"
@@ -153,12 +151,6 @@ definitions:
         type: "number"
       balance:
         type: "number"
-
-  TransactionDetails:
-    type: "object"
-    properties:
-      transactionId:
-        type: "string"
       transactionType:
         type: "string"
       category:
