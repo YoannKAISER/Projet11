@@ -66,16 +66,28 @@ export async function putChangeUserName(token, newUserName) {
     userName: newUserName,
   };
  
-  let response = await fetch(`${baseUrl}user/profile`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    },
-    body: JSON.stringify(userName),
-  });
-  return response;
+  try {
+    let response = await fetch(`${baseUrl}user/profile`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+      body: JSON.stringify(userName),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour du nom d'utilisateur :", error);
+    throw error;
+  }
 }
+
+
 
 export async function getProfile(token, username) {
   try {
@@ -92,7 +104,7 @@ export async function getProfile(token, username) {
     }
 
     let responseBody = await response.json();
-    return responseBody;
+    return responseBody.body;
   } catch (error) {
     console.error("Error fetching user profile:", error);
     throw error;

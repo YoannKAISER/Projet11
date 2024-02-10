@@ -21,7 +21,8 @@ function SignInForm({
 
     async function handleClick(event) {
         if (email === '') {
-            navigate('/sign-in')
+            navigate('/sign-in');
+            return;
         }
 
 

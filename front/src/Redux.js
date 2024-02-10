@@ -4,7 +4,7 @@ import { configureStore, createSlice } from '@reduxjs/toolkit';
 const userInfosSlice = createSlice({
   name: 'user',
   initialState: {
-    token: sessionStorage.getItem("token"),
+    token: null,
     userName: null,
     firstName: null,
     lastName: null,
@@ -44,7 +44,7 @@ const userInfosSlice = createSlice({
   },
 });
 
-export const { saveUserInfo, /* ... */ } = userInfosSlice.actions;
+export const { saveUserInfo } = userInfosSlice.actions;
 
 
 export const {
